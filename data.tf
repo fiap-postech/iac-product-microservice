@@ -55,10 +55,6 @@ data "aws_security_group" "vpc_endpoint_sm_cl" {
   name = "vpc-endpoints-secretsmanager-cloudwatchlogs-sg"
 }
 
-data "aws_iam_role" "lab_role" {
-  name = local.main_role
-}
-
 data "aws_apigatewayv2_api" "tech_challenge_api" {
   api_id = local.api_gateway.id
 }

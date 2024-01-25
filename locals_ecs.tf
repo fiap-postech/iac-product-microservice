@@ -42,6 +42,11 @@ locals {
       retention_in_days = 1
     }
 
+    iam = {
+      role_name   = "${replace(local.project_name, "-", "_")}_service_execution_role"
+      policy_name = "${replace(local.project_name, "-", "_")}_service_execution_policy"
+    }
+
     task_definition = {
       family                   = "tsk-${local.project_name}"
       requires_compatibilities = ["FARGATE"]

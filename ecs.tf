@@ -125,10 +125,59 @@ resource "aws_cloudwatch_log_group" "service_log_group" {
   }
 }
 
+resource "aws_iam_role" "service_execution_role" {
+  name = local.ecs.iam.role_name
+  assume_role_policy = jsonencode({
+    Version : "2012-10-17"
+    Statement : [
+      {
+        Sid    = "01"
+        Effect = "Allow"
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "service_execution_policy" {
+  name = local.ecs.iam.policy_name
+  role = aws_iam_role.service_execution_role.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "01"
+        Effect = "Allow"
+        Action = [
+          "logs:PutLogEvents",
+          "logs:CreateLogStream"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "02"
+        Effect = "Allow"
+        Action = "secretsmanager:GetSecretValue"
+        Resource = [
+          aws_secretsmanager_secret.app_database_password_secret.arn
+        ]
+      }
+    ]
+  })
+
+  depends_on = [
+    aws_iam_role.service_execution_role,
+    aws_secretsmanager_secret.app_database_password_secret
+  ]
+}
+
 resource "aws_ecs_task_definition" "task_definition" {
   family                   = local.ecs.task_definition.family
-  execution_role_arn       = data.aws_iam_role.lab_role.arn
-  task_role_arn            = data.aws_iam_role.lab_role.arn
+  execution_role_arn       = aws_iam_role.service_execution_role.arn
+  task_role_arn            = aws_iam_role.service_execution_role.arn
   requires_compatibilities = local.ecs.task_definition.requires_compatibilities
   network_mode             = local.ecs.task_definition.network_mode
   cpu                      = local.ecs.task_definition.cpu

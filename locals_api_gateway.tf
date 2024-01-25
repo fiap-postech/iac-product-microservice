@@ -1,9 +1,9 @@
 locals {
   api_gateway = {
-    id = "5v9oztrfzi"
+    id = "strojk6q35"
 
     vpc_link = {
-      id = "9dorps"
+      id = "zx34is"
     }
 
     integration = {
