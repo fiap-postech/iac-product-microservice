@@ -1,6 +1,5 @@
 provider "aws" {
-  region              = "us-east-1"
-  allowed_account_ids = ["598135944514"]
+  region = "us-east-1"
 
   default_tags {
     tags = {
