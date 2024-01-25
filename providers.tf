@@ -3,7 +3,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      "worload" = "tech-challenge"
+      "workload" = "product-service"
     }
   }
 }
