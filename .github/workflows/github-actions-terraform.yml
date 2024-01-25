@@ -1,5 +1,5 @@
 name: Validate Terraform Changes
-run-name: ${{ github.actor }} is changing his/her terraform code
+run-name: ${{ github.actor }} is changing environment through terraform code
 
 on:
   push:

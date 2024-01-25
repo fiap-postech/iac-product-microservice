@@ -1,4 +1,14 @@
 locals {
+  service_cluster = {
+    name = "tech-challenge"
+
+    provider = {
+      name   = "FARGATE_SPOT"
+      weight = 100
+      base   = 1
+    }
+  }
+
   ecs = {
     cluster_name = "tech-challenge"
 
@@ -64,6 +74,10 @@ locals {
           {
             name  = "spring.profiles.active"
             value = "prod"
+          },
+          {
+            name  = "db.username"
+            value = local.rds.setup.user.name
           }
         ]
       }
