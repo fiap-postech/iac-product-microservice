@@ -11,5 +11,9 @@ variable "api_gateway_id" {
 variable "vpc_link_id" {
   type        = string
   description = "vpc link id to be used in api gateway configuration"
+}
 
+variable "authorizer_id" {
+  type        = string
+  description = "API Gateway Authorizer ID"
 }
