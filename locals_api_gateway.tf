@@ -1,7 +1,5 @@
 locals {
   api_gateway = {
-    id = "strojk6q35"
-
     integration = {
       integration_type       = "HTTP_PROXY"
       integration_method     = "ANY"
